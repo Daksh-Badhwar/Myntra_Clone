@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import {useDispatch, useSelector} from "react-redux";
+import { itemsActions } from "../store/itemsSlice";
+
 
 const FetchItems=()=>{
 const  fetchStatus = useSelector((store)=>store.fetchStatus);
-const dispatch= useDispatch;
+const dispatch= useDispatch();
 
 useEffect(()=>{
 
@@ -16,8 +18,10 @@ useEffect(()=>{
 
     fetch("http://localhost:8080/items",{signal})
     .then((res)=>res.json())
-    .then((items)=>{
-        console.log("Items fetched",items);
+    .then(({items})=>{
+
+        dispatch(itemsActions.addInitialItems(items[0]));
+        
         
     });
 
@@ -33,7 +37,7 @@ return(
     <>
     <div>
        Fetch Done: {fetchStatus.fetchDone}
-       CurrentlyFetching:{fetchStatus.curretlyFetching}
+       CurrentlyFetching:{fetchStatus.currentlyFetching}
     </div>
     </>
 )
