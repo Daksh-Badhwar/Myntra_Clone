@@ -1,19 +1,22 @@
-import React from 'react';
-import Header from "../components/Header";
+//fetch items as if one go directly on bag ,items should be visible
+  import { Outlet } from "react-router-dom";
 import Footer from "../components/Footer";
-import {Outlet} from "react-router-dom"
-import FetchItems from '../components/FetchItems';
+import Header from "../components/Header";
+import FetchItems from "../components/Fetchitems";
+import { useSelector } from "react-redux";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 function App() {
-//fetch items as if one go directly on bag ,items should be visible
-  return(<>
-  
-      <Header/>
-      <FetchItems/>
-    <Outlet/>
-    <Footer/>
-     </>)
-  
+  const fetchStatus = useSelector((store) => store.fetchStatus);
+
+  return (
+    <>
+      <Header />
+      <FetchItems />
+      {fetchStatus.currentlyFetching ? <LoadingSpinner /> : <Outlet />}
+      <Footer />
+    </>
+  );
 }
 
-export default App
+export default App;
